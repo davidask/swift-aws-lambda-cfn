@@ -1,0 +1,23 @@
+
+# Swift
+/.build
+/Packages
+/*.xcodeproj
+xcuserdata/
+.swiftpm
+.swift-version
+Package.resolved
+
+# Temp files created by most text editors.
+*~
+# Merge files created by git.
+*.orig
+# vim swap files
+.*.sw[a-z]
+.sw?
+
+# Finder metadata
+.DS_Store
+
+# Visual Studio metadata
+.vscode
