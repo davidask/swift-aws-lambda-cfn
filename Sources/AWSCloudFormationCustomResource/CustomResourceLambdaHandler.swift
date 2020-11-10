@@ -20,7 +20,7 @@ public struct CustomResourcePutResult<Data: Encodable> {
 }
 
 internal extension Lambda {
-    static let defaultOffloadQueue = DispatchQueue(label: "LambdaHandler.cfn.offload")
+    static let defaultOffloadQueue = DispatchQueue(label: "LambdaHandler.cfn.customresource.offload")
 }
 
 public enum CustomResourceHandlerError: Error {

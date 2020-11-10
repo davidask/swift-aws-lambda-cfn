@@ -1,0 +1,2 @@
+# AWS Lambda+CloudFormation for Swift
+This resporistory contains Swift source code enabling the creation of [AWS CloudFormation](https://aws.amazon.com/cloudformation/) [custom resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-custom-resources.html) and [macros](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html) using the Swift Lambda runtime.
