@@ -56,19 +56,29 @@ struct MyCustomResource: CustomResourceLambdaHandler {
         let attribute1: String
     }
 
-    func create(context: Lambda.Context, event: CreateEvent, completion: @escaping (Result<ResourceResult, Error>) -> Void)
+    func create(context: Lambda.Context, event: CreateEvent, completion: @escaping (Result<ResourceResult, Error>) -> Void) {
         // Create resource
-        completion(.success(ResourceResult(
+        completion(.success(
+            ResourceResult(
+                physicalResourceId: "PhysicalResourceID",
+                data: ResourceData(attribute1: "Attribute1")
+            )
+        ))
     }
 
-    func update(context: Lambda.Context, event: UpdateEvent) -> EventLoopFuture<ResourceResult> {
-        someFunctionUpdatingResource.map { attributeValue in
-            ResourceResult(physicalResourceId: "MyPhysicalResourceId", data: ResourceData(attribute1: attributeValue))
-        }
+    func update(context: Lambda.Context, event: UpdateEvent, completion: @escaping (Result<ResourceResult, Error>) -> Void) {
+        // Update resource
+        completion(.success(
+            ResourceResult(
+                physicalResourceId: "PhysicalResourceID",
+                data: ResourceData(attribute1: "Attribute1")
+            )
+        ))
     }
 
-    func delete(context: Lambda.Context, event: DeleteEvent) -> EventLoopFuture<Void> {
-        someFunctionDeletingResource()
+    func delete(context: Lambda.Context, event: DeleteEvent, completion: @escaping (Result<Void, Error>) -> Void) {
+        // Delete resource
+        completion(.success(()))
     }
 }
 
