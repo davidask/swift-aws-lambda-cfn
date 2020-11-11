@@ -1,5 +1,4 @@
 import XCTest
-import NIO
 @testable import AWSCloudFormationLambdaEvents
 
 final class MacroLambdaEventDecodingTests: XCTestCase {
@@ -51,6 +50,6 @@ final class MacroLambdaEventDecodingTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testCloudFormationCustomResourceCreateEventFromJSON", testMacroLambdaEventDecoding),
+        ("testMacroLambdaEventDecoding", testMacroLambdaEventDecoding),
     ]
 }

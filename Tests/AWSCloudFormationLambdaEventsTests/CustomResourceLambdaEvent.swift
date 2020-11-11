@@ -1,5 +1,4 @@
 import XCTest
-import NIO
 @testable import AWSCloudFormationLambdaEvents
 
 final class CustomResourceLambdaEventDecodingTests: XCTestCase {
@@ -31,7 +30,7 @@ final class CustomResourceLambdaEventDecodingTests: XCTestCase {
     }
     """
 
-    func testCloudFormationCustomResourceCreateEventFromJSON() {
+    func testCustomResourceEventDecoding() {
 
         let data = CustomResourceLambdaEventDecodingTests.createEventBody.data(using: .utf8)!
         var event: CustomResourceLambdaEvent<TestResourceProperties>!
@@ -59,6 +58,6 @@ final class CustomResourceLambdaEventDecodingTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testCloudFormationCustomResourceCreateEventFromJSON", testCloudFormationCustomResourceCreateEventFromJSON),
+        ("testCustomResourceEventDecode", testCustomResourceEventDecoding),
     ]
 }

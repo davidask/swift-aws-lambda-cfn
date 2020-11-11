@@ -27,7 +27,7 @@ public enum CustomResourceHandlerError: Error {
     case unexpectedStatus(HTTPResponseStatus)
 }
 
-public protocol CustomResourceHandler: EventLoopCloudFormationCustomResource {
+public protocol CustomResourceLambdaHandler: EventLoopCustomResourceLambdaHandler {
 
     func create(context: Lambda.Context, event: CreateEvent, completion: @escaping (Result<ResourceResult, Error>) -> Void)
 
@@ -36,7 +36,7 @@ public protocol CustomResourceHandler: EventLoopCloudFormationCustomResource {
     func delete(context: Lambda.Context, event: DeleteEvent, completion: @escaping (Result<Void, Error>) -> Void)
 }
 
-public extension CustomResourceHandler {
+public extension CustomResourceLambdaHandler {
 
     func create(context: Lambda.Context, event: CreateEvent) -> EventLoopFuture<ResourceResult> {
 
@@ -70,7 +70,7 @@ public extension CustomResourceHandler {
     }
 }
 
-public protocol EventLoopCloudFormationCustomResource: ByteBufferLambdaHandler {
+public protocol EventLoopCustomResourceLambdaHandler: ByteBufferLambdaHandler {
     associatedtype ResourceProperties: Decodable
     associatedtype ResourceData: Encodable
 
@@ -87,7 +87,7 @@ public protocol EventLoopCloudFormationCustomResource: ByteBufferLambdaHandler {
     func delete(context: Lambda.Context, event: DeleteEvent) -> EventLoopFuture<Void>
 }
 
-public extension EventLoopCloudFormationCustomResource {
+public extension EventLoopCustomResourceLambdaHandler {
 
     typealias In = CustomResourceLambdaEvent<ResourceProperties>
     typealias Out = Void

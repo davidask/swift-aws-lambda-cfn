@@ -5,12 +5,55 @@ import AWSLambdaRuntimeCore
 import Foundation
 @testable import AWSCloudFormationLambdaEvents
 @testable import AWSCloudFormationCustomResource
-import AWSCloudFormationCore
-import Logging
 
 final class InvocationTests: XCTestCase {
 
-    struct Resource: EventLoopCloudFormationCustomResource {
+    struct Resource: CloudFormationCustomResource {
+
+        struct ResourceProperties: Decodable {
+            let property1: String
+        }
+
+        struct ResourceData: Encodable {
+            let attribute1: String
+        }
+
+        func create(context: Lambda.Context, event: CreateEvent, completion: @escaping (Result<ResourceResult, Error>) -> Void) {
+            // Create resource
+            completion(.success(
+                ResourceResult(
+                    physicalResourceId: "PhysicalResourceID",
+                    data: ResourceData(attribute1: "Attribute1")
+                )
+            ))
+        }
+
+        func update(context: Lambda.Context, event: UpdateEvent, completion: @escaping (Result<ResourceResult, Error>) -> Void) {
+            // Update resource
+            completion(.success(
+                ResourceResult(
+                    physicalResourceId: "PhysicalResourceID",
+                    data: ResourceData(attribute1: "Attribute1")
+                )
+            ))
+        }
+
+        func delete(context: Lambda.Context, event: DeleteEvent, completion: @escaping (Result<Void, Error>) -> Void) {
+            // Delete resource
+            completion(.success(()))
+        }
+
+    }
+
+    struct EventLoopResource: EventLoopCloudFormationCustomResource {
+
+        struct ResourceProperties: Decodable {
+            let property1: String
+        }
+
+        struct ResourceData: Encodable {
+            let attribute1: String
+        }
 
         func create(context: Lambda.Context, event: CreateEvent) -> EventLoopFuture<ResourceResult> {
             context.eventLoop.makeSucceededFuture(
@@ -27,17 +70,5 @@ final class InvocationTests: XCTestCase {
         func delete(context: Lambda.Context, event: DeleteEvent) -> EventLoopFuture<Void> {
             context.eventLoop.makeSucceededFuture(())
         }
-
-        struct ResourceProperties: Decodable {
-            let property1: String
-        }
-
-        struct ResourceData: Encodable {
-            let attribute1: String
-        }
     }
-
-//    static var allTests = [
-////        ("testInvocation", testInvocation),
-//    ]
 }

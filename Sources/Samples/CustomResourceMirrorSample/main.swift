@@ -1,6 +1,6 @@
 import AWSCloudFormationCustomResource
 
-struct MirrorResourceHandler: CustomResourceHandler {
+struct MirrorResourceHandler: CustomResourceLambdaHandler {
 
     struct ResourceProperties: Codable {
         let attribute1: String

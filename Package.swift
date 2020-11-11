@@ -50,8 +50,14 @@ let package = Package(
                 .product(name: "AWSLambdaEvents", package: "swift-aws-lambda-runtime"),
                 .product(name: "AWSLambdaRuntimeCore", package: "swift-aws-lambda-runtime")
             ]),
+        .testTarget(
+            name: "AWSCloudFormationMacroTests",
+            dependencies: [
+                .byName(name: "AWSCloudFormationMacro")
+            ]),
+
         .target(
-            name: "CustomResourceMirrorSample", 
+            name: "CustomResourceMirrorSample",
             dependencies: ["AWSCloudFormationCustomResource"],
             path: "./Sources/Samples/CustomResourceMirrorSample"
             ),

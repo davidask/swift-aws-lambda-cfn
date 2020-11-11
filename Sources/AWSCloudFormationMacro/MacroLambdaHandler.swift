@@ -10,10 +10,9 @@ internal extension Lambda {
     static let defaultOffloadQueue = DispatchQueue(label: "LambdaHandler.cfn.macro.offload")
 }
 
-public protocol MacroLambdaHandler: ByteBufferLambdaHandler {
-    associatedtype ReturnFragment: Encodable
+public protocol MacroLambdaHandler: EventLoopMacroLambdaHandler {
 
-    func transform(context: Lambda.Context, fragment: Fragment, callback: @escaping (Result<ReturnFragment, Error>) -> Void)
+    func handle(context: Lambda.Context, event: MacroLambdaEvent, callback: @escaping (Result<ReturnFragment, Error>) -> Void)
 
     var offloadQueue: DispatchQueue { get }
 }
@@ -24,10 +23,10 @@ public extension MacroLambdaHandler {
         Lambda.defaultOffloadQueue
     }
 
-    func transform(context: Lambda.Context, fragment: Fragment) -> EventLoopFuture<ReturnFragment> {
+    func handle(context: Lambda.Context, event: MacroLambdaEvent) -> EventLoopFuture<ReturnFragment> {
         let promise = context.eventLoop.makePromise(of: ReturnFragment.self)
         self.offloadQueue.async {
-            transform(context: context, fragment: fragment, callback: promise.completeWith)
+            handle(context: context, event: event, callback: promise.completeWith)
         }
         return promise.futureResult
     }
@@ -36,7 +35,7 @@ public extension MacroLambdaHandler {
 public protocol EventLoopMacroLambdaHandler: ByteBufferLambdaHandler {
     associatedtype ReturnFragment: Encodable
 
-    func transform(context: Lambda.Context, fragment: Fragment) -> EventLoopFuture<ReturnFragment>
+    func handle(context: Lambda.Context, event: MacroLambdaEvent) -> EventLoopFuture<ReturnFragment>
 }
 
 public extension EventLoopMacroLambdaHandler {
@@ -46,7 +45,7 @@ public extension EventLoopMacroLambdaHandler {
         do {
             let macroEvent = try JSONDecoder().decode(MacroLambdaEvent.self, from: event)
 
-            return transform(context: context, fragment: macroEvent.fragment)
+            return handle(context: context, event: macroEvent)
                 .map { fragment in
                     MacroLambdaResult<ReturnFragment>(requestId: macroEvent.requestId, status: .success(fragment))
                 }.recover { error in

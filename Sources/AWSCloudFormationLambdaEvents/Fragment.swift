@@ -106,3 +106,23 @@ extension Fragment: Decodable {
     }
 }
 
+extension Fragment: Encodable {
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+
+        switch self {
+        case .map(let value):
+            try container.encode(value)
+        case .list(let value):
+            try container.encode(value)
+        case .integer(let value):
+            try container.encode(value)
+        case .string(let value):
+            try container.encode(value)
+        case .float(let value):
+            try container.encode(value)
+        case .bool(let value):
+            try container.encode(value)
+        }
+    }
+}
