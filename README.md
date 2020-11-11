@@ -122,8 +122,8 @@ This project includes helper scripts for building and packaging lambda functions
 
 From your project, run the following commands to package a target for AWS Lambda.
 ```sh
-./.build/dependencies/swift-aws-lambda-cfn/scripts/build.sh <target>
-./.build/dependencies/swift-aws-lambda-cfn/scripts/lambda-package.sh <target>
+./.build/checkouts/swift-aws-lambda-cfn/scripts/build.sh <target>
+./.build/checkouts/swift-aws-lambda-cfn/scripts/lambda-package.sh <target>
 ```
 A source bundle zip file will be created in `.build/<target>` for upload to AWS Lambda.
 
