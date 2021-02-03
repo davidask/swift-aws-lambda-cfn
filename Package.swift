@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-aws-cfn",
+    name: "swift-aws-lambda-cfn",
     products: [
         .library(
             name: "AWSCloudFormationLambdaEvents",
